@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.2.0-cudnn8-devel-ubuntu22.04 AS builder
+FROM nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04 AS builder
 
 RUN apt-get update && \
     apt-get install -y curl git python3 python3-pip python3-venv && \
@@ -14,7 +14,7 @@ RUN python3 -m venv venv && \
     pip install -U -r requirements.txt
 
 
-FROM nvidia/cuda:12.2.0-cudnn8-devel-ubuntu22.04 AS runtime
+FROM nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04 AS runtime
 
 RUN apt-get update && \
     apt-get install -y curl ffmpeg python3 && \
