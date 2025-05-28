@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04 AS builder
+FROM debian:bookworm-slim AS builder
 
 RUN apt-get update && \
     apt-get install -y curl git python3 python3-pip python3-venv && \
@@ -11,10 +11,10 @@ COPY requirements.txt .
 
 RUN python3 -m venv venv && \
     . venv/bin/activate && \
-    pip install -U -r requirements.txt
+    pip install -U -r requirements.txt ctranslate2==4.5.0
 
 
-FROM nvidia/cuda:11.6.1-cudnn8-runtime-ubuntu20.04 AS runtime
+FROM debian:bookworm-slim AS runtime
 
 RUN apt-get update && \
     apt-get install -y curl ffmpeg python3 && \
