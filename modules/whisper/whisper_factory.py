@@ -3,10 +3,11 @@ import os
 import torch
 
 from modules.utils.paths import (FASTER_WHISPER_MODELS_DIR, DIARIZATION_MODELS_DIR, OUTPUT_DIR,
-                                 INSANELY_FAST_WHISPER_MODELS_DIR, WHISPER_MODELS_DIR, UVR_MODELS_DIR)
+                                 INSANELY_FAST_WHISPER_MODELS_DIR, WHISPER_MODELS_DIR, UVR_MODELS_DIR, WHISPERX_MODELS_DIR)
 from modules.whisper.faster_whisper_inference import FasterWhisperInference
 from modules.whisper.whisper_Inference import WhisperInference
 from modules.whisper.insanely_fast_whisper_inference import InsanelyFastWhisperInference
+from modules.whisper.whisperx_inference import WhisperXInference
 from modules.whisper.base_transcription_pipeline import BaseTranscriptionPipeline
 from modules.whisper.data_classes import *
 from modules.utils.logger import get_logger
@@ -22,6 +23,7 @@ class WhisperFactory:
         whisper_model_dir: str = WHISPER_MODELS_DIR,
         faster_whisper_model_dir: str = FASTER_WHISPER_MODELS_DIR,
         insanely_fast_whisper_model_dir: str = INSANELY_FAST_WHISPER_MODELS_DIR,
+        whisperx_model_dir: str = WHISPERX_MODELS_DIR,
         diarization_model_dir: str = DIARIZATION_MODELS_DIR,
         uvr_model_dir: str = UVR_MODELS_DIR,
         output_dir: str = OUTPUT_DIR,
@@ -86,6 +88,13 @@ class WhisperFactory:
         elif whisper_type == WhisperImpl.INSANELY_FAST_WHISPER.value:
             return InsanelyFastWhisperInference(
                 model_dir=insanely_fast_whisper_model_dir,
+                output_dir=output_dir,
+                diarization_model_dir=diarization_model_dir,
+                uvr_model_dir=uvr_model_dir
+            )
+        elif whisper_type == WhisperImpl.WHISPERX.value:
+            return WhisperXInference(
+                model_dir=whisperx_model_dir,
                 output_dir=output_dir,
                 diarization_model_dir=diarization_model_dir,
                 uvr_model_dir=uvr_model_dir
